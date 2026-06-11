@@ -46,9 +46,9 @@ export function SettingsPanel({ isOpen, settings, onClose, onSave }: SettingsPan
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/30 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex md:items-start md:justify-center md:pt-20 bg-black/30 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-slideUp max-h-[85vh] overflow-auto"
+        className="bg-white md:rounded-2xl shadow-2xl w-full md:max-w-lg md:mx-4 animate-slideUp h-full md:max-h-[85vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -190,9 +190,9 @@ export function SettingsPanel({ isOpen, settings, onClose, onSave }: SettingsPan
           {/* About */}
           <div className="p-4 bg-slate-50 rounded-xl">
             <p className="text-xs text-slate-500">
-              <strong className="text-slate-600">闪记任务 FlashTask v1.0</strong><br />
-              多模态 AI 任务助手 — 语音/图片/文字一键转任务清单<br />
-              数据完全存储在浏览器本地，不上传任何服务器
+              <strong className="text-slate-600">翼记 v1.0</strong><br />
+              中国电信天翼品牌 · 多模态AI任务助手<br />
+              语音/图片/文字一键转任务清单，数据完全存储在浏览器本地
             </p>
           </div>
         </div>

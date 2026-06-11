@@ -1,5 +1,5 @@
 import type { TaskStats } from '../types';
-import { ListTodo, Clock, CheckCircle2, AlertTriangle, Calendar, Settings, Download, Upload, Zap } from 'lucide-react';
+import { ListTodo, Clock, CheckCircle2, AlertTriangle, Calendar, Settings, Download, Upload, Zap, X } from 'lucide-react';
 import { useRef } from 'react';
 import { exportAllData, importAllData } from '../store';
 
@@ -7,9 +7,11 @@ interface SidebarProps {
   stats: TaskStats;
   onRefresh: () => void;
   onOpenSettings: () => void;
+  isMobile?: boolean;
+  onClose?: () => void;
 }
 
-export function Sidebar({ stats, onRefresh, onOpenSettings }: SidebarProps) {
+export function Sidebar({ stats, onRefresh, onOpenSettings, isMobile, onClose }: SidebarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = () => {
@@ -18,7 +20,7 @@ export function Sidebar({ stats, onRefresh, onOpenSettings }: SidebarProps) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `flashtask-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `yiji-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -56,14 +58,21 @@ export function Sidebar({ stats, onRefresh, onOpenSettings }: SidebarProps) {
     <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full">
       {/* Logo */}
       <div className="p-5 border-b border-slate-100">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <Zap size={18} className="text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Zap size={18} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-slate-800 tracking-tight">翼记</h1>
+              <p className="text-xs text-slate-400">中国电信 · AI任务助手</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-slate-800 tracking-tight">闪记任务</h1>
-            <p className="text-xs text-slate-400">AI 多模态任务助手</p>
-          </div>
+          {isMobile && (
+            <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+              <X size={18} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -112,7 +121,7 @@ export function Sidebar({ stats, onRefresh, onOpenSettings }: SidebarProps) {
           <Settings size={16} />
           设置
         </button>
-        <p className="text-xs text-slate-300 text-center mt-3">FlashTask v1.0</p>
+        <p className="text-xs text-slate-300 text-center mt-3">翼记 v1.0</p>
       </div>
     </aside>
   );

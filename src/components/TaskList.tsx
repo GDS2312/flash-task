@@ -47,53 +47,56 @@ export function TaskList({ tasks, onToggle, onTaskClick }: TaskListProps) {
 
   return (
     <div className="flex-1 overflow-auto">
-      {/* Filters */}
-      <div className="sticky top-0 z-10 bg-bg/80 backdrop-blur-sm px-6 py-3 border-b border-slate-100 flex items-center gap-3 flex-wrap">
-        <Filter size={14} className="text-slate-400" />
+      {/* Filters - scrollable on mobile */}
+      <div className="sticky top-0 z-10 bg-bg/80 backdrop-blur-sm px-3 sm:px-6 py-2.5 border-b border-slate-100">
+        {/* Top row: status + priority filters - scrollable */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
+          <Filter size={14} className="text-slate-400 flex-shrink-0 hidden sm:block" />
 
-        {/* Status filter */}
-        <div className="flex gap-0.5 bg-slate-100 rounded-lg p-0.5">
-          {[
-            { key: 'all', label: '全部' },
-            { key: 'pending', label: '待办' },
-            { key: 'in_progress', label: '进行中' },
-            { key: 'completed', label: '已完成' },
-          ].map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setStatusFilter(key as FilterStatus)}
-              className={`px-3 py-1 text-xs rounded-md transition-colors font-medium ${
-                statusFilter === key ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          {/* Status filter */}
+          <div className="flex gap-0.5 bg-slate-100 rounded-lg p-0.5 flex-shrink-0">
+            {[
+              { key: 'all', label: '全部' },
+              { key: 'pending', label: '待办' },
+              { key: 'in_progress', label: '进行中' },
+              { key: 'completed', label: '已完成' },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setStatusFilter(key as FilterStatus)}
+                className={`px-2.5 sm:px-3 py-1.5 sm:py-1 text-xs rounded-md transition-colors font-medium whitespace-nowrap ${
+                  statusFilter === key ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Priority filter */}
+          <div className="flex gap-0.5 bg-slate-100 rounded-lg p-0.5 flex-shrink-0">
+            {[
+              { key: 'all', label: '全部优先级' },
+              { key: 'high', label: '🔴' },
+              { key: 'medium', label: '🟡' },
+              { key: 'low', label: '⚪' },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setPriorityFilter(key as FilterPriority)}
+                className={`px-2 sm:px-2.5 py-1.5 sm:py-1 text-xs rounded-md transition-colors font-medium whitespace-nowrap ${
+                  priorityFilter === key ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Priority filter */}
-        <div className="flex gap-0.5 bg-slate-100 rounded-lg p-0.5">
-          {[
-            { key: 'all', label: '全部优先级' },
-            { key: 'high', label: '高' },
-            { key: 'medium', label: '中' },
-            { key: 'low', label: '低' },
-          ].map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setPriorityFilter(key as FilterPriority)}
-              className={`px-2.5 py-1 text-xs rounded-md transition-colors font-medium ${
-                priorityFilter === key ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* Sort */}
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-xs text-slate-400">排序:</span>
+        {/* Bottom row: sort + count */}
+        <div className="flex items-center gap-2 text-xs text-slate-400">
+          <span>排序:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
@@ -103,19 +106,44 @@ export function TaskList({ tasks, onToggle, onTaskClick }: TaskListProps) {
             <option value="dueDate">截止日期</option>
             <option value="created">创建时间</option>
           </select>
-          <span className="text-xs text-slate-400 ml-2">
-            {sorted.length} 项任务
-          </span>
+          <span className="ml-auto">{sorted.length} 项任务</span>
         </div>
       </div>
 
       {/* Task list */}
       <div className="p-6">
         {sorted.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-            <ClipboardList size={48} className="mb-4 opacity-30" />
-            <p className="text-lg font-medium">暂无任务</p>
-            <p className="text-sm mt-1">点击右下角 + 按钮，用语音、图片或文字快速创建任务</p>
+          <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-primary/5 rounded-3xl flex items-center justify-center mb-6">
+              <ClipboardList size={36} className="text-primary/30 sm:w-12 sm:h-12" />
+            </div>
+            <p className="text-lg sm:text-xl font-semibold text-slate-700 mb-2">开始你的第一条任务</p>
+            <p className="text-sm text-slate-400 max-w-xs mb-8">
+              点击右下角 <span className="inline-flex items-center justify-center w-6 h-6 bg-primary text-white rounded-lg text-xs font-bold mx-0.5 align-middle">+</span> 按钮，三种方式快速创建：
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-md w-full">
+              <div className="bg-white border border-slate-200 rounded-xl p-4 text-center hover:border-primary/30 transition-colors cursor-default">
+                <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <span className="text-lg">🎙️</span>
+                </div>
+                <p className="text-sm font-medium text-slate-700">语音录入</p>
+                <p className="text-xs text-slate-400 mt-1">说话即创建</p>
+              </div>
+              <div className="bg-white border border-slate-200 rounded-xl p-4 text-center hover:border-primary/30 transition-colors cursor-default">
+                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <span className="text-lg">📷</span>
+                </div>
+                <p className="text-sm font-medium text-slate-700">图片识别</p>
+                <p className="text-xs text-slate-400 mt-1">拍照转任务</p>
+              </div>
+              <div className="bg-white border border-slate-200 rounded-xl p-4 text-center hover:border-primary/30 transition-colors cursor-default">
+                <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <span className="text-lg">⌨️</span>
+                </div>
+                <p className="text-sm font-medium text-slate-700">文字输入</p>
+                <p className="text-xs text-slate-400 mt-1">粘贴即提取</p>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="space-y-3">

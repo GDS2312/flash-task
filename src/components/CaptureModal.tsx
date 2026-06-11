@@ -26,9 +26,9 @@ export function CaptureModal({ isOpen, onClose, settings, onTasksCreated }: Capt
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/30 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex md:items-start md:justify-center md:pt-16 bg-black/30 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-slideUp max-h-[85vh] overflow-hidden flex flex-col"
+        className="bg-white md:rounded-2xl shadow-2xl w-full md:max-w-lg md:mx-4 animate-slideUp h-full md:max-h-[85vh] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

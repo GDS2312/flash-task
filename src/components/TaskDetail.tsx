@@ -53,9 +53,9 @@ export function TaskDetail({ task, onClose, onSave, onDelete }: TaskDetailProps)
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/30 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex md:items-start md:justify-center md:pt-20 bg-black/30 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-slideUp max-h-[80vh] overflow-auto"
+        className="bg-white md:rounded-2xl shadow-2xl w-full md:max-w-lg md:mx-4 animate-slideUp h-full md:max-h-[80vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
